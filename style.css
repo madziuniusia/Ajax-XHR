@@ -1,0 +1,21 @@
+.contentDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.innerDiv {
+    border: 1px solid black;
+    width: 200px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkOrDelete {
+    width: 30px;
+    height: 30px;
+    background-image: url("gfx/delete.gif");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
