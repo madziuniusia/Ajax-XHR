@@ -60,6 +60,7 @@
             <td><input type="number" name="year" id="year"></td>
             <td id="checkOrDeleteForm"><button onclick="send()" id="send"><img src="gfx/checked.png"
                         alt="checked"></button></td>
+
         </tr>
     </table>
 </body>

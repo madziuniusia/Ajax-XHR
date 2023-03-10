@@ -29,30 +29,45 @@ function send() {
       year
   );
 }
+function deleteRecord(e) {
+  const xhttp = new XMLHttpRequest();
+  xhttp.send(`add=delete&deleteRecord=${e.target.id}`);
+}
 
 function get() {
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "ajax.php");
 
   xhttp.onreadystatechange = function () {
-    // console.log(this.readyState);
     if (this.readyState == 4 && this.status == 200) {
       let json = JSON.parse(this.responseText);
       console.log(json);
-      document.getElementById("out").innerText = "";
       for (let i = 0; i < json.length; i++) {
         let contentDiv = document.createElement("div");
         contentDiv.classList.add("contentDiv");
         let RemoveRecord = document.createElement("button");
         RemoveRecord.classList.add("checkOrDelete");
+        RemoveRecord.setAttribute("id", json[i][5]);
         for (let j = 0; j < 5; j++) {
           let div = document.createElement("div");
-          div.innerText = json[i][j];
           div.classList.add("innerDiv");
+          if (j === 0) {
+            let img = document.createElement("img");
+            img.src = `gfx/${json[i][0]}.jpg`;
+            img.height = "25";
+            div.appendChild(img);
+          } else {
+            div.innerText = json[i][j];
+          }
           contentDiv.appendChild(div);
         }
         contentDiv.appendChild(RemoveRecord);
         document.getElementById("out").appendChild(contentDiv);
+        RemoveRecord.addEventListener("click", (e) => {
+          // send info about deleted record to ajax
+          deleteRecord(e);
+          document.getElementById("out").removeChild(contentDiv);
+        });
       }
     }
   };
