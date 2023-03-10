@@ -31,17 +31,17 @@ function send() {
 }
 function deleteRecord(e) {
   const xhttp = new XMLHttpRequest();
-  xhttp.send(`add=delete&deleteRecord=${e.target.id}`);
+  xhttp.open("POST", "ajax.php");
+  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  xhttp.send("acc=delete&deleteRecord" + e.target.id);
 }
 
 function get() {
   const xhttp = new XMLHttpRequest();
   xhttp.open("POST", "ajax.php");
-
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       let json = JSON.parse(this.responseText);
-      console.log(json);
       for (let i = 0; i < json.length; i++) {
         let contentDiv = document.createElement("div");
         contentDiv.classList.add("contentDiv");
@@ -64,8 +64,7 @@ function get() {
         contentDiv.appendChild(RemoveRecord);
         document.getElementById("out").appendChild(contentDiv);
         RemoveRecord.addEventListener("click", (e) => {
-          // send info about deleted record to ajax
-          deleteRecord(e);
+          deleteRecord(e); // send info about deleted record to ajax
           document.getElementById("out").removeChild(contentDiv);
         });
       }
