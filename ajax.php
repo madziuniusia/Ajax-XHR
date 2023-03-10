@@ -19,7 +19,6 @@ if(isset($_POST['acc']) && $_POST['acc']=='add'){
     $all = $result->fetch_all();
     echo json_encode($all);
 } else if(isset($_POST['acc']) && $_POST['acc']=='delete'){
-    echo $_POST['deleteRecord'];
-    $mysqli->query("DELETE FROM `monetki` WHERE `IdMonetki`=".$_POST['deleteRecord']);
+    $mysqli->query("DELETE FROM `monetki` WHERE `IdMonetki`= ".$_POST['deleteRecord']);
 }
 ?>
