@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     border-collapse: collapse;
+    user-select: none;
 }
 
 .contentDiv {
@@ -17,6 +18,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 5px;
 }
 
 .checkOrDelete {
@@ -25,4 +27,23 @@
     background-image: url("gfx/delete.gif");
     background-repeat: no-repeat;
     background-size: contain;
+    border: 0px;
+}
+
+.check {
+    width: 30px;
+    height: 30px;
+    background-image: url("gfx/checked.png");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 0px;
+}
+
+.checkOrDelete:hover {
+    opacity: 50%;
+}
+
+#nav {
+    text-align: center;
+    width: 1030px;
 }

@@ -1,33 +1,50 @@
+let modalForm = false;
+let updateRecordID;
+let tableForm = document.getElementById("tableForm");
+let underAddRecordDiv = document.getElementById("underAddRecord");
+let outDiv = document.getElementById("out");
+
 function send() {
-  const xhttp = new XMLHttpRequest();
-  let country = encodeURIComponent(document.getElementById("country").value);
-  let denomination = encodeURIComponent(
-    document.getElementById("denomination").value
-  );
-  let category = encodeURIComponent(document.getElementById("category").value);
-  let alloy = encodeURIComponent(document.getElementById("alloy").value);
-  let year = encodeURIComponent(document.getElementById("year").value);
-  xhttp.open("POST", "ajax.php");
+  if (!modalForm) {
+    const xhttp = new XMLHttpRequest();
+    let country = encodeURIComponent(document.getElementById("country").value);
+    let denomination = encodeURIComponent(
+      document.getElementById("denomination").value
+    );
+    let category = encodeURIComponent(
+      document.getElementById("category").value
+    );
+    let alloy = encodeURIComponent(document.getElementById("alloy").value);
+    let year = encodeURIComponent(document.getElementById("year").value);
+    xhttp.open("POST", "ajax.php");
 
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      get();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        get();
+      }
+    };
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(
+      "acc=add&country=" +
+        country +
+        "&denomination=" +
+        denomination +
+        "&category=" +
+        category +
+        "&alloy=" +
+        alloy +
+        "&year=" +
+        year
+    );
+  } else {
+    modalForm = false;
+    underAddRecordDiv.appendChild(tableForm);
+    while (outDiv.firstChild) {
+      outDiv.removeChild(outDiv.firstChild);
     }
-  };
-
-  xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xhttp.send(
-    "acc=add&country=" +
-      country +
-      "&denomination=" +
-      denomination +
-      "&category=" +
-      category +
-      "&alloy=" +
-      alloy +
-      "&year=" +
-      year
-  );
+    get();
+    //sent about update
+  }
 }
 function deleteRecord(e) {
   const xhttp = new XMLHttpRequest();
@@ -55,12 +72,36 @@ function createTable(json, i) {
     }
     contentDiv.appendChild(div);
   }
+  for (let i = 0; i < contentDiv.children.length - 1; i++) {
+    contentDiv.children[i].addEventListener("click", (e) => {
+      if (!modalForm) {
+        modalForm = true;
+        updateRecordID = contentDiv.lastChild.id;
+        contentDiv.replaceChildren(tableForm);
+      }
+    });
+  }
+  outDiv.appendChild(contentDiv);
   contentDiv.appendChild(RemoveRecord);
-  document.getElementById("out").appendChild(contentDiv);
+
   RemoveRecord.addEventListener("click", (e) => {
     deleteRecord(e); // send info about deleted record to ajax
-    document.getElementById("out").removeChild(contentDiv);
+    outDiv.removeChild(contentDiv);
   });
+
+  /* for (let i = 0; i < outDiv.children.length; i++) {
+    outDiv.children[i].addEventListener("click", (e) => {
+      if (!modalForm) {
+        modalForm = true;
+        outDiv.children[i].replaceChildren(tableForm);
+      } else {
+         while (outDiv.firstChild) {
+          outDiv.removeChild(outDiv.firstChild);
+        }
+        get(); 
+      }
+    });
+  } */
 }
 
 function get() {
@@ -69,12 +110,11 @@ function get() {
   xhttp.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
       let json = JSON.parse(this.responseText);
-      if (document.getElementById("out").children.length == json.length - 1) {
-        createTable(json, json.length - 1);
-      } else {
-        for (let i = 0; i < json.length; i++) {
-          createTable(json, i);
-        }
+      while (outDiv.firstChild) {
+        outDiv.removeChild(outDiv.firstChild);
+      }
+      for (let i = 0; i < json.length; i++) {
+        createTable(json, i);
       }
     }
   };

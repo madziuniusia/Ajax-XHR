@@ -21,17 +21,13 @@
         <div class="innerDiv">category no.</div>
         <div class="innerDiv">alloy</div>
         <div class="innerDiv">year</div>
-        <div class="checkOrDelete"></div>
     </div>
 
     <div id="out"></div>
-
-    <table id="tableForm">
-        <tr>
-            <th id="nav" colspan="6">ADD RECORD</th>
-        </tr>
-        <tr>
-            <td>
+    <div id="nav">ADD RECORD</div>
+    <div id="underAddRecord">
+        <div class="contentDiv" id="tableForm">
+            <div class="innerDiv">
                 <select name="country" id="country">
                     <!-- base -->
                     <?php
@@ -42,10 +38,10 @@
                         $rs->close(); 
                         ?>
                 </select>
-            </td>
-            <td><input type="text" name="denomination" id="denomination"></td>
-            <td><input type="text" name="category" id="category"></td>
-            <td>
+            </div>
+            <div class="innerDiv"><input type="text" name="denomination" id="denomination"></div>
+            <div class="innerDiv"><input type="text" name="category" id="category"></div>
+            <div class="innerDiv">
                 <select name="alloy" id="alloy">
                     <!-- base -->
                     <?php
@@ -56,12 +52,13 @@
                         $rs->close(); 
                         ?>
                 </select>
-            </td>
-            <td><input type="number" name="year" id="year"></td>
-            <td id="checkOrDeleteForm"><button onclick="send()" id="send"><img src="gfx/checked.png"
-                        alt="checked"></button></td>
-        </tr>
-    </table>
+            </div>
+            <div class="innerDiv"><input type="number" name="year" id="year"></div>
+            <div class="check"><button onclick="send()" id="send"><img src="gfx/checked.png" alt="checked" width="30"
+                        hight="30"></button>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
