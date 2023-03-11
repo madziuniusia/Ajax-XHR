@@ -50,12 +50,16 @@ function send() {
         "&id=" +
         updateRecordID
     );
-    modalForm = false;
-    underAddRecordDiv.appendChild(tableForm);
-    while (outDiv.firstChild) {
-      outDiv.removeChild(outDiv.firstChild);
-    }
-    get();
+    xhttp.onreadystatechange = function () {
+      if (this.readyState == 4 && this.status == 200) {
+        modalForm = false;
+        underAddRecordDiv.appendChild(tableForm);
+        while (outDiv.firstChild) {
+          outDiv.removeChild(outDiv.firstChild);
+        }
+        get();
+      }
+    };
   }
 }
 function deleteRecord(e) {
@@ -89,6 +93,11 @@ function createTable(json, i) {
       if (!modalForm) {
         modalForm = true;
         updateRecordID = contentDiv.lastChild.id;
+        document.getElementById("country").value = json[i][0];
+        document.getElementById("denomination").value = json[i][1];
+        document.getElementById("category").value = json[i][2];
+        document.getElementById("alloy").value = json[i][3];
+        document.getElementById("year").value = json[i][4];
         contentDiv.replaceChildren(tableForm);
       }
     });
