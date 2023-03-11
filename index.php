@@ -29,7 +29,7 @@
         <div class="contentDiv" id="tableForm">
             <div class="innerDiv">
                 <select name="country" id="country">
-                    <!-- base -->
+                    <!-- database -->
                     <?php
                         $rs = $mysqli->query("SELECT `name` FROM `country`");
                         while($rec=$rs->fetch_array()){
@@ -43,7 +43,7 @@
             <div class="innerDiv"><input type="text" name="category" id="category"></div>
             <div class="innerDiv">
                 <select name="alloy" id="alloy">
-                    <!-- base -->
+                    <!-- database -->
                     <?php
                         $rs = $mysqli->query("SELECT `name` FROM `alloy`");
                         while($rec=$rs->fetch_array()){
