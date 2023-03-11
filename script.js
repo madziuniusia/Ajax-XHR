@@ -5,19 +5,17 @@ let underAddRecordDiv = document.getElementById("underAddRecord");
 let outDiv = document.getElementById("out");
 
 function send() {
-  if (!modalForm) {
-    const xhttp = new XMLHttpRequest();
-    let country = encodeURIComponent(document.getElementById("country").value);
-    let denomination = encodeURIComponent(
-      document.getElementById("denomination").value
-    );
-    let category = encodeURIComponent(
-      document.getElementById("category").value
-    );
-    let alloy = encodeURIComponent(document.getElementById("alloy").value);
-    let year = encodeURIComponent(document.getElementById("year").value);
-    xhttp.open("POST", "ajax.php");
+  const xhttp = new XMLHttpRequest();
+  let country = encodeURIComponent(document.getElementById("country").value);
+  let denomination = encodeURIComponent(
+    document.getElementById("denomination").value
+  );
+  let category = encodeURIComponent(document.getElementById("category").value);
+  let alloy = encodeURIComponent(document.getElementById("alloy").value);
+  let year = encodeURIComponent(document.getElementById("year").value);
+  xhttp.open("POST", "ajax.php");
 
+  if (!modalForm) {
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         get();
@@ -37,13 +35,27 @@ function send() {
         year
     );
   } else {
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send(
+      "acc=update&country=" +
+        country +
+        "&denomination=" +
+        denomination +
+        "&category=" +
+        category +
+        "&alloy=" +
+        alloy +
+        "&year=" +
+        year +
+        "&id=" +
+        updateRecordID
+    );
     modalForm = false;
     underAddRecordDiv.appendChild(tableForm);
     while (outDiv.firstChild) {
       outDiv.removeChild(outDiv.firstChild);
     }
     get();
-    //sent about update
   }
 }
 function deleteRecord(e) {
@@ -88,20 +100,6 @@ function createTable(json, i) {
     deleteRecord(e); // send info about deleted record to ajax
     outDiv.removeChild(contentDiv);
   });
-
-  /* for (let i = 0; i < outDiv.children.length; i++) {
-    outDiv.children[i].addEventListener("click", (e) => {
-      if (!modalForm) {
-        modalForm = true;
-        outDiv.children[i].replaceChildren(tableForm);
-      } else {
-         while (outDiv.firstChild) {
-          outDiv.removeChild(outDiv.firstChild);
-        }
-        get(); 
-      }
-    });
-  } */
 }
 
 function get() {

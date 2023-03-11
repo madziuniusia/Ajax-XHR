@@ -20,5 +20,15 @@ if(isset($_POST['acc']) && $_POST['acc']=='add'){
     echo json_encode($all);
 } else if(isset($_POST['acc']) && $_POST['acc']=='delete'){
     $mysqli->query("DELETE FROM `monetki` WHERE `IdMonetki`= ".$_POST['deleteRecord']);
+} else if(isset($_POST['acc']) && $_POST['acc']=='update'){
+    $rs = $mysqli->query("SELECT `IdCountry` FROM `country` WHERE `name` ='".$_POST['country']."'");
+        while($rec=$rs->fetch_array()){$country=$rec;}
+    $rs->close(); 
+
+    $rs = $mysqli->query("SELECT `IdAlloy` FROM `alloy` WHERE `name` = '".$_POST['alloy']."'");
+        while($rec=$rs->fetch_array()){$alloy=$rec;}
+    $rs->close();
+    
+    $mysqli->query("UPDATE `monetki` SET `IdCountry` = $country[0], `denomination` = '".$_POST['denomination']."', `category` = '".$_POST['category']."', `IdAlloy` = $alloy[0] , `year` = '".$_POST['year']."' WHERE `monetki`.`IdMonetki` = ".$_POST['id']);
 }
 ?>
